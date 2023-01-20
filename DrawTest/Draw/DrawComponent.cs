@@ -2,7 +2,7 @@
 
 namespace DrawTest.Draw
 {
-    public abstract class DrawComponent
+    public abstract class DrawComponent : ICloneable
     {
         internal DrawUi Parent { get; set; }
         public Vector2 Position { get; set; } = Vector2.Zero;
@@ -14,7 +14,15 @@ namespace DrawTest.Draw
         Vector2 mouseWorldPosAtDown;
         Vector2 myWorldPosAtDown;
 
-        public void MouseDown(Vector2 screenPos) 
+		public abstract void SnapToGrid(Graphics g)
+        {
+            var remainder = new Vector2( Position.X % Parent.GridSettings.Snap.X,
+										 Position.Y % Parent.GridSettings.Snap.Y);
+            Position -= remainder;
+        }
+
+
+		public void MouseDown(Vector2 screenPos) 
         {
             mouseWorldPosAtDown = Parent.Scaling.GetWorldPosition(screenPos);
             myWorldPosAtDown = Position;
@@ -51,5 +59,12 @@ namespace DrawTest.Draw
                 Parent.Redraw();
             }
         }
-    }
+
+		public virtual object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+
+
+	}
 }

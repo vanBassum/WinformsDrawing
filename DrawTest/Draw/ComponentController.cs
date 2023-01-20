@@ -19,5 +19,4 @@ namespace DrawTest.Draw
             components.Add(component);
         }
     }
-
 }
