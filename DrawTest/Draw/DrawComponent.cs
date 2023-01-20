@@ -26,7 +26,8 @@ namespace DrawTest.Draw
         }
 
         public void MouseUp(Vector2 screenPos) 
-        { 
+        {
+            Parent.DrawComponents.SelectedComponent = this;
             mouseDown = false; 
             Parent.Redraw(); 
         }

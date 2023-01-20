@@ -28,12 +28,53 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// propertyGrid1
+			// 
+			this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
+			this.propertyGrid1.Name = "propertyGrid1";
+			this.propertyGrid1.Size = new System.Drawing.Size(245, 450);
+			this.propertyGrid1.TabIndex = 0;
+			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
+			this.splitContainer1.Size = new System.Drawing.Size(800, 450);
+			this.splitContainer1.SplitterDistance = 551;
+			this.splitContainer1.TabIndex = 1;
+			// 
+			// Form1
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.splitContainer1);
+			this.Name = "Form1";
+			this.Text = "Form1";
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+			this.splitContainer1.ResumeLayout(false);
+			this.ResumeLayout(false);
+
         }
 
-        #endregion
-    }
+		#endregion
+
+		private PropertyGrid propertyGrid1;
+		private SplitContainer splitContainer1;
+	}
 }

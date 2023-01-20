@@ -4,15 +4,16 @@ namespace DrawTest.Draw
 {
 	public class DrawUi : UserControl
 	{
+		new public event MouseEventHandler MouseDown;
+		new public event MouseEventHandler MouseUp;
+		new public event MouseEventHandler MouseMove;
+		new public event MouseEventHandler MouseWheel;
+
 		public DrawComponentCollection DrawComponents { get; }
 		public Scaling Scaling { get; }
 		public InputController InputController { get; }
 		public GridSettings GridSettings { get; }
 
-		new public event MouseEventHandler MouseDown;
-		new public event MouseEventHandler MouseUp;
-		new public event MouseEventHandler MouseMove;
-		new public event MouseEventHandler MouseWheel;
 
 		PictureBox pbBackground = new PictureBox();
 		PictureBox pbForeground = new PictureBox();
@@ -70,21 +71,9 @@ namespace DrawTest.Draw
 			}
 		}
 
-
-
 		public void Redraw()
 		{
 			pbForeground.Refresh();
 		}
 	}
-
-	public class GridSettings
-	{
-		public Vector2 WorldSnap { get; set; } = new Vector2(10, 10);
-		public Vector2 WorldGrid { get; set; } = new Vector2(50, 50);
-		public Pen GridPen { get; set; } = Pens.LightGray;
-	}
-
-
-
 }
