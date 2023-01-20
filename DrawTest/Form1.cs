@@ -13,8 +13,8 @@ namespace DrawTest
             this.Controls.Add(drawUi);
             drawUi.Dock = DockStyle.Fill;
 
-            drawUi.DrawComponents.Add(new Rectangle { Location = new Vector2(10, 10) });
-            drawUi.DrawComponents.Add(new Rectangle { Location = new Vector2(200, 200) });
+            drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(10, 10) });
+            drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(200, 200) });
         }
     }
 }

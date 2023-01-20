@@ -32,7 +32,7 @@ namespace DrawTest.Draw
             var screenPos = e.Location.ToVector2();
             var worldPos = Parent.Scaling.GetWorldPosition(screenPos);
             var prefCol = hoverComponent;
-            hoverComponent = Parent.DrawComponents.FirstOrDefault(a => a.CheckCollision(worldPos));
+            hoverComponent = Parent.DrawComponents.Reverse().FirstOrDefault(a => a.CheckCollision(worldPos));
 
             if (prefCol == null && hoverComponent != null)
                 hoverComponent.MouseEnter(screenPos);

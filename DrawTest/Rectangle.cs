@@ -5,20 +5,20 @@ namespace DrawTest
 {
     public class Rectangle : DrawComponent
     {
-        public Vector2 Location { get; set; } = Vector2.Zero;
+        
         public Vector2 Size { get; set; } = new Vector2(100f, 50f);
 
         public override bool CheckCollision(Vector2 worldPos)
         {
-            return worldPos.X >= Location.X
-                && worldPos.Y >= Location.Y
-                && worldPos.X <= Location.X + Size.X
-                && worldPos.Y <= Location.Y + Size.Y;
+            return worldPos.X >= Position.X
+                && worldPos.Y >= Position.Y
+                && worldPos.X <= Position.X + Size.X
+                && worldPos.Y <= Position.Y + Size.Y;
         }
 
         public override void Draw(Graphics g)
         {
-            var screenPos = Parent.Scaling.GetScreenPosition(Location);
+            var screenPos = Parent.Scaling.GetScreenPosition(Position);
             var screenSize = Size * Parent.Scaling.Scale;
 
             var rect = new System.Drawing.Rectangle(screenPos.ToPoint(), screenSize.ToSize());
