@@ -72,7 +72,9 @@ namespace DrawTest.Draw
             }
         }
 
-        private void Parent_MouseUp(object? sender, MouseEventArgs e)
+
+
+		private void Parent_MouseUp(object? sender, MouseEventArgs e)
         {
             var screenPos = e.Location.ToVector2();
             hoverComponent?.MouseUp(screenPos);

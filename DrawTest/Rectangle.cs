@@ -24,8 +24,8 @@ namespace DrawTest
             var rect = new System.Drawing.Rectangle(screenPos.ToPoint(), screenSize.ToSize());
 
             if (mouseDown)
-                g.FillRectangle(Brushes.Black, rect);
-            else if (mouseHover)
+				g.DrawRectangle(Pens.Green, rect);
+			else if (mouseHover)
                 g.DrawRectangle(Pens.Red, rect);
             else
                 g.DrawRectangle(Pens.Black, rect);

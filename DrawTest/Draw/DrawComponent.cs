@@ -14,12 +14,7 @@ namespace DrawTest.Draw
         Vector2 mouseWorldPosAtDown;
         Vector2 myWorldPosAtDown;
 
-		public abstract void SnapToGrid(Graphics g)
-        {
-            var remainder = new Vector2( Position.X % Parent.GridSettings.Snap.X,
-										 Position.Y % Parent.GridSettings.Snap.Y);
-            Position -= remainder;
-        }
+
 
 
 		public void MouseDown(Vector2 screenPos) 
@@ -56,9 +51,17 @@ namespace DrawTest.Draw
             {
                 var worldPos = Parent.Scaling.GetWorldPosition(screenPos);
                 Position = myWorldPosAtDown + worldPos - mouseWorldPosAtDown;
-                Parent.Redraw();
+                SnapToGrid();
+				Parent.Redraw();
             }
         }
+
+		void SnapToGrid()
+		{
+			var remainder = new Vector2(Position.X % Parent.GridSettings.WorldSnap.X,
+										Position.Y % Parent.GridSettings.WorldSnap.Y);
+			Position -= remainder;
+		}
 
 		public virtual object Clone()
 		{
