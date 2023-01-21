@@ -1,52 +1,104 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Xml.Linq;
-using DrawTest.Draw;
+using System.Reflection;
 
 namespace DrawTest
 {
-    public interface IIdentifiable
-    { 
-        Guid Id { get; }
-    }
-
-    public class HistoryManager<T> where T : IIdentifiable
+	public interface IIdentifiable
 	{
-        List<IHistoryItem> historyItems = new List<IHistoryItem>();
-        BindingList<T> parent;
-        bool record = true;
-        public HistoryManager(BindingList<T> parent)
-        { 
-            this.parent = parent;
-            parent.ListChanged += DrawComponents_ListChanged;
-        }
+		Guid Id { get; }
+	}
 
-        private void DrawComponents_ListChanged(object? sender, ListChangedEventArgs e)
-        {
-            if (!record)
-                return;
-            if (sender is BindingList<DrawComponent> list)
-            {
-                var change = GetHistoryItem(list, e);
-                if (change != null)
-                    historyItems.Add(change);
-            }
-        }
+	public class HistoryManager<T> where T : IIdentifiable, INotifyPropertyChanged
+	{
+		List<ChangeInfo> changes = new List<ChangeInfo>();
+		ObservableCollection<T> parent;
+		bool record = true;
+		public HistoryManager(ObservableCollection<T> parent)
+		{
+			this.parent = parent;
+			parent.CollectionChanged += Parent_CollectionChanged;
+		}
+
+		private void Parent_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
+			if (!record)
+				return;
+
+			ChangeInfo info = new ChangeInfo(this, e);
+			changes.Add(info);
+		}
+
+		private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (!record)
+				return;
+			if(sender is T item)
+			{
+				ChangeInfo info = new ChangeInfo(item, e);
+				changes.Add(info);
+			}
+		}
+
+		public enum ChangeTypes
+		{
+			Add,
+			Remove,
+			Property,
+		}
 
 
-        IHistoryItem? GetHistoryItem(BindingList<DrawComponent> list, ListChangedEventArgs e)
-        {
-            switch (e.ListChangedType)
-            {
-                case ListChangedType.ItemAdded:
-                    return new HistoryItemNew(list, e);
-                case ListChangedType.ItemChanged:
-                    return new HistoryItemChange(list, e);
-                default:
-                    return null;
-            }
-        }
 
+		class ChangeInfo
+		{
+			public Guid Id { get; set; }
+			public Dictionary<string, object?> Properties { get; } = new Dictionary<string, object?>();
+			public Type ObjectType { get; set; }
+			public ChangeTypes ChangeType { get; set; }
+
+			public ChangeInfo(HistoryManager<T> parent, NotifyCollectionChangedEventArgs e)
+			{
+				switch (e.Action)
+				{
+					case NotifyCollectionChangedAction.Add:
+						if (e.NewItems?[0] is T nitem)
+						{
+							nitem.PropertyChanged += parent.Item_PropertyChanged;
+							ChangeType = ChangeTypes.Add;
+							ObjectType = nitem.GetType();
+							Id = nitem.Id;
+							foreach (var prop in ObjectType.GetProperties())
+								Properties.Add(prop.Name, prop.GetValue(nitem));
+						}
+						break;
+					case NotifyCollectionChangedAction.Remove:
+						if (e.OldItems?[0] is T oitem)
+						{
+							ChangeType = ChangeTypes.Remove;
+							Id = oitem.Id;
+						}
+						break;
+
+				}
+			}
+
+			
+
+			public ChangeInfo(T item, PropertyChangedEventArgs e)
+			{
+				ChangeType = ChangeTypes.Property;
+				Id = item.Id;
+				if(item.GetType().GetProperty(e.PropertyName) is PropertyInfo pi)
+					Properties.Add(e.PropertyName, pi.GetValue(item));
+			}
+		}
+
+
+
+
+
+		/*
         public void Undo()
         {
             record = false;
@@ -63,6 +115,10 @@ namespace DrawTest
 
                     case HistoryItemChange changeProperty:
                         Undo(changeProperty);
+                        break;
+
+                    case HistoryItemDelete historyItemDelete:
+                        Undo(historyItemDelete);
                         break;
                 }
             }
@@ -105,8 +161,26 @@ namespace DrawTest
             }
         }
 
+		private void Undo(HistoryItemDelete item)
+		{
+            if(Activator.CreateInstance(item.Type) is T newItem) 
+            {
+				foreach (var propVal in item.Properties)
+				{
+					var prop = item.Type.GetProperty(propVal.Key);
+					if (prop == null) continue;
+					prop.SetValue(newItem, propVal.Value);
+				}
+				parent.Add(newItem);
+			}
+		}
+        */
 
-        interface IHistoryItem
+
+
+
+		/*
+		interface IHistoryItem
         {
             Guid Id { get; }
         }
@@ -148,5 +222,28 @@ namespace DrawTest
 
             public override string ToString() => $"[Added] {Name}";
         }
-    }
+
+
+		class HistoryItemDelete : IHistoryItem
+		{
+			public Guid Id { get; private set; }
+			public string Name { get; set; }
+            public Type Type { get; set; }
+			public Dictionary<string, object?> Properties { get; } = new Dictionary<string, object?>();
+			public HistoryItemDelete(BindingList<DrawComponent> list, ListChangedEventArgs e)
+			{
+				var component = list[e.NewIndex];
+				Id = component.Id;
+				Name = component.Name;
+                Type = component.GetType();
+				foreach (var prop in component.GetType().GetProperties())
+				{
+					Properties.Add(prop.Name, prop.GetValue(component));
+				}
+			}
+
+			public override string ToString() => $"[Deleted] {Name}";
+		}
+        */
+	}
 }

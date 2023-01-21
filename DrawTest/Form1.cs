@@ -19,7 +19,7 @@ namespace DrawTest
             drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(10, 10) });
             drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(200, 200) });
 
-            listBox1.DataSource = drawUi.DrawComponents;
+			listBox1.DataSource = drawUi.DrawComponents;
             listBox1.SelectedIndexChanged += (s, e) => propertyGrid1.SelectedObjects = Test(listBox1.SelectedItems).ToArray();
 
             
@@ -35,7 +35,7 @@ namespace DrawTest
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-            historyManager.Undo();
+            //historyManager.Undo();
 		}
 	}
 }

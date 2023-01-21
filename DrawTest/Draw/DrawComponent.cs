@@ -23,7 +23,10 @@ namespace DrawTest.Draw
 
 		public void MouseDown(DrawUi parent, Vector2 screenPos) 
         {
-            mouseWorldPosAtDown = parent.Scaling.GetWorldPosition(screenPos);
+            //parent.DrawComponents.Remove(this);
+			//parent?.Redraw();
+            //return;
+			mouseWorldPosAtDown = parent.Scaling.GetWorldPosition(screenPos);
             myWorldPosAtDown = Position;
             mouseDown = true; 
             parent?.Redraw(); 

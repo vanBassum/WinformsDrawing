@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Numerics;
 
 namespace DrawTest.Draw
@@ -10,7 +11,7 @@ namespace DrawTest.Draw
 		new public event MouseEventHandler? MouseMove;
 		new public event MouseEventHandler? MouseWheel;
 
-		public BindingList<DrawComponent> DrawComponents { get; }
+		public ObservableCollection<DrawComponent> DrawComponents { get; }
 		public Scaling Scaling { get; }
 		public InputController InputController { get; }
 		public GridSettings GridSettings { get; }
@@ -21,7 +22,7 @@ namespace DrawTest.Draw
 		public DrawUi()
 		{
 			InputController = new InputController(this);
-			DrawComponents = new BindingList<DrawComponent>();
+			DrawComponents = new ObservableCollection<DrawComponent>();
 			Scaling = new Scaling();
 			GridSettings = new GridSettings();
 
@@ -42,7 +43,7 @@ namespace DrawTest.Draw
 			pbForeground.MouseWheel += (s, e) => MouseWheel?.Invoke(this, e);
 
 			pbForeground.BackColor = Color.Transparent;
-			DrawComponents.ListChanged += (s, e) => Redraw();
+			DrawComponents.CollectionChanged += (s, e) => Redraw();
 		}
 
 
