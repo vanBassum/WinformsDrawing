@@ -30,11 +30,17 @@
         {
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.listBox1 = new System.Windows.Forms.ListBox();
+			this.listBox2 = new System.Windows.Forms.ListBox();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+			this.splitContainer3.Panel1.SuspendLayout();
+			this.splitContainer3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
 			this.splitContainer2.Panel1.SuspendLayout();
 			this.splitContainer2.Panel2.SuspendLayout();
@@ -57,12 +63,30 @@
 			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.splitContainer3);
+			// 
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
 			this.splitContainer1.Size = new System.Drawing.Size(1264, 681);
 			this.splitContainer1.SplitterDistance = 1015;
 			this.splitContainer1.TabIndex = 1;
+			// 
+			// splitContainer3
+			// 
+			this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+			this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+			this.splitContainer3.Name = "splitContainer3";
+			// 
+			// splitContainer3.Panel1
+			// 
+			this.splitContainer3.Panel1.Controls.Add(this.listBox2);
+			this.splitContainer3.Size = new System.Drawing.Size(1015, 681);
+			this.splitContainer3.SplitterDistance = 228;
+			this.splitContainer3.TabIndex = 0;
 			// 
 			// splitContainer2
 			// 
@@ -87,12 +111,25 @@
 			// 
 			this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listBox1.FormattingEnabled = true;
+			this.listBox1.IntegralHeight = false;
 			this.listBox1.ItemHeight = 15;
 			this.listBox1.Location = new System.Drawing.Point(0, 0);
 			this.listBox1.Name = "listBox1";
 			this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.listBox1.Size = new System.Drawing.Size(245, 412);
 			this.listBox1.TabIndex = 0;
+			// 
+			// listBox2
+			// 
+			this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.listBox2.FormattingEnabled = true;
+			this.listBox2.IntegralHeight = false;
+			this.listBox2.ItemHeight = 15;
+			this.listBox2.Location = new System.Drawing.Point(0, 0);
+			this.listBox2.Name = "listBox2";
+			this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.listBox2.Size = new System.Drawing.Size(228, 681);
+			this.listBox2.TabIndex = 1;
 			// 
 			// Form1
 			// 
@@ -102,9 +139,13 @@
 			this.Controls.Add(this.splitContainer1);
 			this.Name = "Form1";
 			this.Text = "Form1";
+			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
+			this.splitContainer3.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+			this.splitContainer3.ResumeLayout(false);
 			this.splitContainer2.Panel1.ResumeLayout(false);
 			this.splitContainer2.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -119,5 +160,7 @@
 		private SplitContainer splitContainer1;
 		private SplitContainer splitContainer2;
 		private ListBox listBox1;
+		private SplitContainer splitContainer3;
+		private ListBox listBox2;
 	}
 }
