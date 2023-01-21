@@ -18,8 +18,8 @@ namespace DrawTest
 
         public override void Draw(Graphics g)
         {
-            var screenPos = Parent.Scaling.GetScreenPosition(Position);
-            var screenSize = Size * Parent.Scaling.Scale;
+            var screenPos = parent.Scaling.GetScreenPosition(Position);
+            var screenSize = Size * parent.Scaling.Scale;
 
             var rect = new System.Drawing.Rectangle(screenPos.ToPoint(), screenSize.ToSize());
 

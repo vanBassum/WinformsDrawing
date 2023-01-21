@@ -1,66 +1,66 @@
 ﻿using System.Numerics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace DrawTest.Draw
 {
     public abstract class DrawComponent : ICloneable
     {
-        internal DrawUi Parent { get; set; }
+        public string Name { get; set; } = "New component";
         public Vector2 Position { get; set; } = Vector2.Zero;
-        public abstract void Draw(Graphics g);
+        public abstract void Draw(DrawUi parent, Graphics g);
         public abstract bool CheckCollision(Vector2 worldPos);
 
-        protected bool mouseHover = false;
+
+		protected bool mouseHover = false;
         protected bool mouseDown = false;
         Vector2 mouseWorldPosAtDown;
         Vector2 myWorldPosAtDown;
 
 
 
-
-		public void MouseDown(Vector2 screenPos) 
+		public void MouseDown(DrawUi parent, Vector2 screenPos) 
         {
-            mouseWorldPosAtDown = Parent.Scaling.GetWorldPosition(screenPos);
+            mouseWorldPosAtDown = parent.Scaling.GetWorldPosition(screenPos);
             myWorldPosAtDown = Position;
             mouseDown = true; 
-            Parent.Redraw(); 
+            parent?.Redraw(); 
         }
 
-        public void MouseUp(Vector2 screenPos) 
+        public void MouseUp(DrawUi parent, Vector2 screenPos) 
         {
-            Parent.DrawComponents.SelectedComponent = this;
             mouseDown = false; 
-            Parent.Redraw(); 
+            parent?.Redraw(); 
         }
 
-        public void MouseEnter(Vector2 screenPos) 
+        public void MouseEnter(DrawUi parent, Vector2 screenPos) 
         { 
             mouseHover = true; 
-            Parent.Redraw(); 
+            parent?.Redraw(); 
         }
 
-        public void MouseLeave(Vector2 screenPos) 
+        public void MouseLeave(DrawUi parent, Vector2 screenPos) 
         { 
             mouseHover = false; 
             mouseDown = false; 
-            Parent.Redraw(); 
+            parent?.Redraw(); 
         }
 
 
-        public void MouseMove(Vector2 screenPos)
+        public void MouseMove(DrawUi parent, Vector2 screenPos)
         {
             if (mouseDown)
             {
-                var worldPos = Parent.Scaling.GetWorldPosition(screenPos);
+                var worldPos = parent.Scaling.GetWorldPosition(screenPos);
                 Position = myWorldPosAtDown + worldPos - mouseWorldPosAtDown;
-                SnapToGrid();
-				Parent.Redraw();
+                SnapToGrid(parent.GridSettings);
+				parent?.Redraw();
             }
         }
 
-		void SnapToGrid()
+		void SnapToGrid(GridSettings grid)
 		{
-			var remainder = new Vector2(Position.X % Parent.GridSettings.WorldSnap.X,
-										Position.Y % Parent.GridSettings.WorldSnap.Y);
+			var remainder = new Vector2(Position.X % grid.WorldSnap.X,
+										Position.Y % grid.WorldSnap.Y);
 			Position -= remainder;
 		}
 

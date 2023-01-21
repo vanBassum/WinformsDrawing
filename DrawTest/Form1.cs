@@ -12,14 +12,12 @@ namespace DrawTest
             InitializeComponent();
             splitContainer1.Panel1.Controls.Add(drawUi);
             drawUi.Dock = DockStyle.Fill;
-			drawUi.DrawComponents.SelectedItemChanged += DrawComponents_SelectedItemChanged;
             drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(10, 10) });
             drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(200, 200) });
+
+            listBox1.DataSource = drawUi.DrawComponents;
         }
 
-		private void DrawComponents_SelectedItemChanged(object? sender, DrawComponent? e)
-		{
-            propertyGrid1.SelectedObject = e;
-		}
+
 	}
 }
