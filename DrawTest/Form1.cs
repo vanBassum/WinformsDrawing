@@ -26,5 +26,9 @@ namespace DrawTest
                 yield return o;
         }
 
+		private void button1_Click(object sender, EventArgs e)
+		{
+            drawUi.HistoryManager.Undo();
+		}
 	}
 }

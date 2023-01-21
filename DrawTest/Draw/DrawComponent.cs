@@ -5,11 +5,14 @@ namespace DrawTest.Draw
 {
 	public abstract class DrawComponent : PropertySensitive, ICloneable
     {
-        public string Name { get => GetPar("New component"); set => SetPar(value); } 
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Name { get => GetPar("Component"); set => SetPar(value); } 
         public Vector2 Position { get => GetPar(Vector2.Zero); set => SetPar(value); }
         public abstract void Draw(DrawUi parent, Graphics g);
         public abstract bool CheckCollision(Vector2 worldPos);
 
+        protected Vector2? dragPos;
+        protected Vector2 DrawPosition => dragPos ?? Position;
 
 		protected bool mouseHover = false;
         protected bool mouseDown = false;
@@ -28,6 +31,11 @@ namespace DrawTest.Draw
 
         public void MouseUp(DrawUi parent, Vector2 screenPos) 
         {
+            if(dragPos != null)
+            {
+                Position = dragPos.Value;
+                dragPos = null;
+            }
             mouseDown = false; 
             parent?.Redraw(); 
         }
@@ -51,18 +59,11 @@ namespace DrawTest.Draw
             if (mouseDown)
             {
                 var worldPos = parent.Scaling.GetWorldPosition(screenPos);
-                Position = myWorldPosAtDown + worldPos - mouseWorldPosAtDown;
-                SnapToGrid(parent.GridSettings);
+				dragPos = parent.GridSettings.SnapToGrid(myWorldPosAtDown + worldPos - mouseWorldPosAtDown);
 				parent?.Redraw();
             }
         }
 
-		void SnapToGrid(GridSettings grid)
-		{
-			var remainder = new Vector2(Position.X % grid.WorldSnap.X,
-										Position.Y % grid.WorldSnap.Y);
-			Position -= remainder;
-		}
 
 		public virtual object Clone()
 		{

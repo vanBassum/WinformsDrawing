@@ -10,7 +10,7 @@ namespace DrawTest
 
         public Rectangle() 
         {
-            Name = "New rectangle";
+            Name = "Rectangle";
         }
 
 
@@ -24,7 +24,7 @@ namespace DrawTest
 
         public override void Draw(DrawUi parent, Graphics g)
         {
-            var screenPos = parent.Scaling.GetScreenPosition(Position);
+            var screenPos = parent.Scaling.GetScreenPosition(DrawPosition);
             var screenSize = Size * parent.Scaling.Scale;
 
             var rect = new System.Drawing.Rectangle(screenPos.ToPoint(), screenSize.ToSize());

@@ -31,9 +31,10 @@
 			this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+			this.listBox2 = new System.Windows.Forms.ListBox();
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.listBox1 = new System.Windows.Forms.ListBox();
-			this.listBox2 = new System.Windows.Forms.ListBox();
+			this.button1 = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -83,10 +84,22 @@
 			// 
 			// splitContainer3.Panel1
 			// 
+			this.splitContainer3.Panel1.Controls.Add(this.button1);
 			this.splitContainer3.Panel1.Controls.Add(this.listBox2);
 			this.splitContainer3.Size = new System.Drawing.Size(1015, 681);
 			this.splitContainer3.SplitterDistance = 228;
 			this.splitContainer3.TabIndex = 0;
+			// 
+			// listBox2
+			// 
+			this.listBox2.FormattingEnabled = true;
+			this.listBox2.IntegralHeight = false;
+			this.listBox2.ItemHeight = 15;
+			this.listBox2.Location = new System.Drawing.Point(0, 195);
+			this.listBox2.Name = "listBox2";
+			this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+			this.listBox2.Size = new System.Drawing.Size(228, 486);
+			this.listBox2.TabIndex = 1;
 			// 
 			// splitContainer2
 			// 
@@ -119,17 +132,15 @@
 			this.listBox1.Size = new System.Drawing.Size(245, 412);
 			this.listBox1.TabIndex = 0;
 			// 
-			// listBox2
+			// button1
 			// 
-			this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.listBox2.FormattingEnabled = true;
-			this.listBox2.IntegralHeight = false;
-			this.listBox2.ItemHeight = 15;
-			this.listBox2.Location = new System.Drawing.Point(0, 0);
-			this.listBox2.Name = "listBox2";
-			this.listBox2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.listBox2.Size = new System.Drawing.Size(228, 681);
-			this.listBox2.TabIndex = 1;
+			this.button1.Location = new System.Drawing.Point(44, 84);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.TabIndex = 2;
+			this.button1.Text = "button1";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// Form1
 			// 
@@ -162,5 +173,6 @@
 		private ListBox listBox1;
 		private SplitContainer splitContainer3;
 		private ListBox listBox2;
+		private Button button1;
 	}
 }

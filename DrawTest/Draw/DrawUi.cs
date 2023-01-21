@@ -14,7 +14,7 @@ namespace DrawTest.Draw
 		public Scaling Scaling { get; }
 		public InputController InputController { get; }
 		public GridSettings GridSettings { get; }
-
+		public HistoryManager HistoryManager { get; }
 
 		PictureBox pbBackground = new PictureBox();
 		PictureBox pbForeground = new PictureBox();
@@ -25,6 +25,7 @@ namespace DrawTest.Draw
 			DrawComponents = new BindingList<DrawComponent>();
 			Scaling = new Scaling();
 			GridSettings = new GridSettings();
+			HistoryManager = new HistoryManager(this);
 
 			this.Controls.Add(pbBackground);
 			this.BorderStyle = BorderStyle.FixedSingle;
@@ -44,6 +45,7 @@ namespace DrawTest.Draw
 
 			pbForeground.BackColor = Color.Transparent;
 		}
+
 
 		void DrawBackground(PaintEventArgs e)
 		{
