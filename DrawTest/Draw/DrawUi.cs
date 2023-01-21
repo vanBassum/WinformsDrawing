@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace DrawTest.Draw
 {
-	public class DrawUi : UserControl
+    public class DrawUi : UserControl
 	{
 		new public event MouseEventHandler? MouseDown;
 		new public event MouseEventHandler? MouseUp;
@@ -14,7 +14,6 @@ namespace DrawTest.Draw
 		public Scaling Scaling { get; }
 		public InputController InputController { get; }
 		public GridSettings GridSettings { get; }
-		public HistoryManager HistoryManager { get; }
 
 		PictureBox pbBackground = new PictureBox();
 		PictureBox pbForeground = new PictureBox();
@@ -25,7 +24,6 @@ namespace DrawTest.Draw
 			DrawComponents = new BindingList<DrawComponent>();
 			Scaling = new Scaling();
 			GridSettings = new GridSettings();
-			HistoryManager = new HistoryManager(this);
 
 			this.Controls.Add(pbBackground);
 			this.BorderStyle = BorderStyle.FixedSingle;
@@ -44,6 +42,7 @@ namespace DrawTest.Draw
 			pbForeground.MouseWheel += (s, e) => MouseWheel?.Invoke(this, e);
 
 			pbForeground.BackColor = Color.Transparent;
+			DrawComponents.ListChanged += (s, e) => Redraw();
 		}
 
 

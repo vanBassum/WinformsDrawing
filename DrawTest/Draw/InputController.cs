@@ -39,12 +39,6 @@ namespace DrawTest.Draw
                             parent.Refresh();
                         }
                     }
-
-					if (e.KeyCode == Keys.Z)
-                    {
-                        parent.HistoryManager.Undo();
-
-					}
 				}
             }
 		}

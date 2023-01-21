@@ -3,7 +3,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace DrawTest.Draw
 {
-	public abstract class DrawComponent : PropertySensitive, ICloneable
+	public abstract class DrawComponent : PropertySensitive, ICloneable, IIdentifiable
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get => GetPar("Component"); set => SetPar(value); } 
