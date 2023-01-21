@@ -3,10 +3,10 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace DrawTest.Draw
 {
-    public abstract class DrawComponent : ICloneable
+	public abstract class DrawComponent : PropertySensitive, ICloneable
     {
-        public string Name { get; set; } = "New component";
-        public Vector2 Position { get; set; } = Vector2.Zero;
+        public string Name { get => GetPar("New component"); set => SetPar(value); } 
+        public Vector2 Position { get => GetPar(Vector2.Zero); set => SetPar(value); }
         public abstract void Draw(DrawUi parent, Graphics g);
         public abstract bool CheckCollision(Vector2 worldPos);
 
@@ -69,6 +69,10 @@ namespace DrawTest.Draw
 			return this.MemberwiseClone();
 		}
 
+		public override string ToString()
+		{
+			return Name;
+		}
 
 	}
 }

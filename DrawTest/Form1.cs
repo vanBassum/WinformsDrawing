@@ -1,6 +1,7 @@
 using DrawTest.Draw;
 using System.ComponentModel;
 using System.Numerics;
+using System.Linq;
 
 namespace DrawTest
 {
@@ -16,8 +17,14 @@ namespace DrawTest
             drawUi.DrawComponents.Add(new Rectangle { Position = new Vector2(200, 200) });
 
             listBox1.DataSource = drawUi.DrawComponents;
+            listBox1.SelectedIndexChanged += (s, e) => propertyGrid1.SelectedObjects = Test(listBox1.SelectedItems).ToArray();
         }
 
+        static IEnumerable<object> Test(ListBox.SelectedObjectCollection collection)
+        {
+            foreach(var o in collection)
+                yield return o;
+        }
 
 	}
 }

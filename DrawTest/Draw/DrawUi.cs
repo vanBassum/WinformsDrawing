@@ -37,10 +37,10 @@ namespace DrawTest.Draw
 			pbForeground.Dock = DockStyle.Fill;
 			pbForeground.Paint += (s, e) => DrawForeground(e);
 
-			pbForeground.MouseDown += MouseDown;
-			pbForeground.MouseUp += MouseUp;
-			pbForeground.MouseMove += MouseMove;
-			pbForeground.MouseWheel += MouseWheel;
+			pbForeground.MouseDown += (s, e) => MouseDown?.Invoke(this, e);
+			pbForeground.MouseUp += (s, e) => MouseUp?.Invoke(this, e);
+			pbForeground.MouseMove += (s, e) => MouseMove?.Invoke(this, e);
+			pbForeground.MouseWheel += (s, e) => MouseWheel?.Invoke(this, e);
 
 			pbForeground.BackColor = Color.Transparent;
 		}
