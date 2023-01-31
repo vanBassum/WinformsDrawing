@@ -3,14 +3,14 @@ using System.Numerics;
 
 namespace DrawTest
 {
-    public class Rectangle : DrawComponent
+    public class Button : DrawComponent
     {
         public Vector2 Size { get => GetPar(new Vector2(100f, 50f)); set => SetPar(value); }
+        Output output = new Output();
 
-
-        public Rectangle() 
+        public Button()
         {
-            Name = "Rectangle";
+            Name = "Button";
         }
 
 
@@ -30,14 +30,15 @@ namespace DrawTest
             var rect = new System.Drawing.Rectangle(screenPos.ToPoint(), screenSize.ToSize());
 
             if (mouseDown)
-				g.DrawRectangle(Pens.Green, rect);
-			else if (mouseHover)
+                g.DrawRectangle(Pens.Green, rect);
+            else if (mouseHover)
                 g.DrawRectangle(Pens.Red, rect);
             else
                 g.DrawRectangle(Pens.Black, rect);
 
+            output.Position = DrawPosition + new Vector2(0, 10);
+
+            output.Draw(parent, g);
         }
     }
-
-
 }
