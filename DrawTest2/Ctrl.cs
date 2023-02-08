@@ -10,11 +10,15 @@ namespace DrawTest2
         public bool Moveable { get; set; } = true;
         public bool Selected { get; set; }
         public bool Hover { get; set; }
+        public bool IsIO { get; set; } = false;
+        public bool CompatibleToSelected { get; set; } = false;
 
         protected Pen DefaultPen
         {
             get
             {
+                if (CompatibleToSelected)
+                    return new Pen(Color.Green, 2);
                 switch (Selected, Hover)
                 {
                     case (true, true): return Pens.Red;
@@ -24,6 +28,8 @@ namespace DrawTest2
                 }
             }
         }
+
+        public virtual bool IsCompatible(Ctrl other) => false;
 
         public abstract ICollider Collider { get; }
 

@@ -8,6 +8,14 @@ namespace DrawTest2
 
         public override ICollider Collider => new RectangleCollider(() => new Rect(Position, Size));
 
+        public Output()
+        {
+            Moveable = false;
+            IsIO = true;
+        }
+
+        public override bool IsCompatible(Ctrl other) => other is Input;
+
         protected override void OnDraw(MyGraphics g)
         {
             g.DrawLines(DefaultPen,

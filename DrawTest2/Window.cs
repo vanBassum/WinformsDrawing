@@ -7,6 +7,7 @@ namespace DrawTest2
     {
         public List<Ctrl> Ctrls { get; } = new List<Ctrl>();
         Rect selector = Rect.Empty;
+        Line connection = Line.Empty;
         public Scaling Scaling { get; set; } = new Scaling();
 
         protected override void OnPaint(PaintEventArgs pe)
@@ -16,6 +17,7 @@ namespace DrawTest2
             foreach (var ctrl in Ctrls)
                 ctrl.Draw(g);
             selector.Draw(g);
+            connection.Draw(g);
         }
 
         class CtrlInfo
@@ -52,10 +54,14 @@ namespace DrawTest2
             Down,
             MoveSelected,
             SelectRectangle,
+            IOSelected,
         }
         States state = States.Idle;
         States nextState = States.Idle;
+        CtrlInfo? selectedIO;
+        bool OnEntry = true;
         Vector2 pPos, pDown;
+
         void Actions(InputInfo info)
         {
             var mouseWorldPos = Scaling.ToWorld(info.ScreenPos);
@@ -92,7 +98,11 @@ namespace DrawTest2
                         bool maySelect = true;
                         foreach (var c in allControls.Reverse())
                             maySelect &= !(c.Ctrl.Selected = c.Ctrl.Collider.Collides(mouseWorldPos - c.WorldOffset) && maySelect);
-                        nextState = States.Idle;
+                        selectedIO = selected.FirstOrDefault(c=>c.Ctrl.Selected && c.Ctrl.IsIO);
+                        if (selectedIO != null)
+                            nextState = States.IOSelected;
+                        else
+                            nextState = States.Idle;
                     }
                     break;
                 case States.MoveSelected:
@@ -114,9 +124,36 @@ namespace DrawTest2
                         nextState = States.Idle;
                     }
                     break;
+                case States.IOSelected:
+                    if (selectedIO == null) return;
+
+                    if (OnEntry)
+                    {
+                        foreach(var c in allControls)
+                            c.Ctrl.CompatibleToSelected = c.Ctrl.IsCompatible(selectedIO.Ctrl);
+                        
+                    }
+                    if(info.MouseActions == MouseActions.Move)
+                        connection = new Line(selectedIO.Ctrl.Position + selectedIO.WorldOffset, mouseWorldPos);
+                    
+                    if(info.MouseActions == MouseActions.Down)
+                    {
+                        var col = colliding.Reverse().FirstOrDefault();
+                        if(col != null)
+                        {
+
+                        }
+                        connection = Line.Empty;
+                        nextState = States.Idle;
+                        foreach (var c in allControls)
+                            c.Ctrl.Selected = c.Ctrl.Hover = c.Ctrl.CompatibleToSelected = false;
+                    }
+
+                    break;
             }
 
-            if (nextState != state)
+            OnEntry = nextState != state;
+            if (OnEntry)
                 state = nextState;
             pPos = mouseWorldPos;
             Redraw();

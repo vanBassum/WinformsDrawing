@@ -13,6 +13,7 @@ namespace DrawTest2
         {
             input.Position = new Vector2(0, 20);
             Controls.Add(input);
+            
         }
 
         protected override void OnDraw(MyGraphics g)

@@ -10,7 +10,9 @@ namespace DrawTest2
         public Input()
         {
             Moveable = false;
+            IsIO = true;
         }
+        public override bool IsCompatible(Ctrl other) => other is Output;
 
         protected override void OnDraw(MyGraphics g)
         {
