@@ -18,12 +18,27 @@ namespace DrawTest2
             selector.Draw(g);
         }
 
-        IEnumerable<Ctrl> AllControls(IEnumerable<Ctrl> ctrls)
+        class CtrlInfo
+        {
+            public Ctrl Ctrl { get; set; }
+            //public int Layer { get; set; }
+            public Vector2 WorldOffset { get; set; }
+
+            public CtrlInfo(Ctrl ctrl, int layer, Vector2 worldOffset)
+            {
+                Ctrl = ctrl;
+                //Layer = layer;
+                WorldOffset = worldOffset;
+            }
+        }
+
+
+        IEnumerable<CtrlInfo> AllControls(IEnumerable<Ctrl> ctrls, int layer, Vector2 offset)
         {
             foreach (var c in ctrls)
             {
-                yield return c;
-                foreach (var cc in AllControls(c.Controls))
+                yield return new CtrlInfo(c, layer, offset);
+                foreach (var cc in AllControls(c.Controls, layer + 1, offset + c.Position))
                     yield return cc;
                 
             }
@@ -39,29 +54,30 @@ namespace DrawTest2
             SelectRectangle,
         }
         States state = States.Idle;
+        States nextState = States.Idle;
         Vector2 pPos, pDown;
         void Actions(InputInfo info)
         {
-            var worldPos = Scaling.ToWorld(info.ScreenPos);
-            States nextState = state;
-            var allControls = AllControls(Ctrls).ToArray();
-            var selected = allControls.Where(c => c.Selected);
-            var colliding = allControls.Where(c => c.Collider.Collides(worldPos));
-            var collidingSelected = colliding.Where(c => c.Selected);
+            var mouseWorldPos = Scaling.ToWorld(info.ScreenPos);
+            var allControls = AllControls(Ctrls, 0, Vector2.Zero);
+            var selected = allControls.Where(c => c.Ctrl.Selected);
+            var colliding = allControls.Where(c => c.Ctrl.Collider.Collides(mouseWorldPos - c.WorldOffset));
+            var collidingSelected = colliding.Where(c => c.Ctrl.Selected);
+
             if (info.MouseActions == MouseActions.Down)
-                pDown = worldPos;
+                pDown = mouseWorldPos;
+
             switch (state)
             {
                 case States.Idle:
                     if (info.MouseActions == MouseActions.Move)
                     {
-                        foreach (var c in allControls)
-                            c.Hover = c.Collider.Collides(worldPos);
+                        bool mayHover = true;
+                        foreach (var c in allControls.Reverse())
+                            mayHover &= !(c.Ctrl.Hover = c.Ctrl.Collider.Collides(mouseWorldPos - c.WorldOffset) && mayHover);
                     }
-
                     if (info.MouseActions == MouseActions.Down)
                         nextState = States.Down;
-                    
                     break;
                 case States.Down:
                     if (info.MouseActions == MouseActions.Move)
@@ -73,25 +89,24 @@ namespace DrawTest2
                     }
                     else if (info.MouseActions == MouseActions.Up)
                     {
-                        bool noSelected = true;
-                        foreach (var ctrl in allControls)
-                        {
-                            ctrl.Selected = ctrl.Collider.Collides(worldPos) && noSelected;
-                            noSelected &= !ctrl.Selected;
-                        }
+                        bool maySelect = true;
+                        foreach (var c in allControls.Reverse())
+                            maySelect &= !(c.Ctrl.Selected = c.Ctrl.Collider.Collides(mouseWorldPos - c.WorldOffset) && maySelect);
                         nextState = States.Idle;
                     }
                     break;
                 case States.MoveSelected:
-                    foreach (var s in selected)
-                        s.Position += worldPos - pPos;
+                    foreach (var s in selected.Where(c=>c.Ctrl.Moveable))
+                        s.Ctrl.Position += mouseWorldPos - pPos;
                     if (info.MouseActions == MouseActions.Up)
                         nextState = States.Idle;
                     break;
                 case States.SelectRectangle:
-                    selector = Rect.FromPoints(pDown, worldPos);
-                    foreach (var ctrl in allControls)
-                        ctrl.Selected = ctrl.Collider.Collides(selector);
+                    selector = Rect.FromPoints(pDown, mouseWorldPos);
+                    foreach (var c in Ctrls)
+                    {
+                        c.Selected = c.Collider.Collides(selector);
+                    }
 
                     if (info.MouseActions == MouseActions.Up)
                     {
@@ -101,11 +116,9 @@ namespace DrawTest2
                     break;
             }
 
-            if(nextState != state)
-            {
+            if (nextState != state)
                 state = nextState;
-            }
-            pPos = worldPos;
+            pPos = mouseWorldPos;
             Redraw();
         }
 
