@@ -2,17 +2,17 @@
 
 namespace DrawTest2
 {
-    public class Button : Ctrl
+    public class Relais : Ctrl
     {
         public Vector2 Size { get; set; } = new Vector2(100, 50);
-        public override ICollider Collider => new RectangleCollider(()=>new Rect(Position, Size));
+        public override ICollider Collider => new RectangleCollider(() => new Rect(Position, Size));
 
 
-        Output output = new Output();
-        public Button()
+        Input input = new Input();
+        public Relais()
         {
-            output.Position = new Vector2(90, 20);
-            Controls.Add(output);
+            input.Position = new Vector2(0, 20);
+            Controls.Add(input);
         }
 
         protected override void OnDraw(MyGraphics g)

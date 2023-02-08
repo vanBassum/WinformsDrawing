@@ -11,6 +11,7 @@ namespace DrawTest2
             window1.Ctrls.Add(new Button() { Position = new Vector2(20, 10) });
             window1.Ctrls.Add(new Button() { Position = new Vector2(100, 10) });
             window1.Ctrls.Add(new Button() { Position = new Vector2(100, 50) });
+            window1.Ctrls.Add(new Relais() { Position = new Vector2(100, 100) });
         }
         private void Form1_Load(object sender, EventArgs e)
         {

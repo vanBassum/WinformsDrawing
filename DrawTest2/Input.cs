@@ -2,20 +2,24 @@
 
 namespace DrawTest2
 {
-    public class Output : Ctrl
+    public class Input : Ctrl
     {
         public Vector2 Size { get; set; } = new Vector2(10, 10);
-
         public override ICollider Collider => new RectangleCollider(() => new Rect(Position, Size));
+
+        public Input()
+        {
+            Moveable = false;
+        }
 
         protected override void OnDraw(MyGraphics g)
         {
             g.DrawLines(DefaultPen,
                 new Vector2[] {
-                    Vector2.Zero,
-                    new Vector2(Size.X, Size.Y / 2),
-                    Vector2.UnitY * Size,
-                    Vector2.Zero,
+                    Size * Vector2.UnitX,
+                    Size * Vector2.UnitY / 2,
+                    Size,
+                    Size * Vector2.UnitX,
                 });
         }
     }
