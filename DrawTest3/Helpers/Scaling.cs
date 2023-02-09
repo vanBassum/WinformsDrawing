@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace DrawTest2
+namespace DrawTest3.Helpers
 {
     public class Scaling
     {

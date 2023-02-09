@@ -1,4 +1,4 @@
-﻿namespace DrawTest2
+﻿namespace DrawTest3
 {
     partial class Form1
     {
@@ -28,17 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.window1 = new DrawTest2.Window();
+            this.window1 = new DrawTest3.Controls.Window();
             ((System.ComponentModel.ISupportInitialize)(this.window1)).BeginInit();
             this.SuspendLayout();
             // 
             // window1
             // 
-            this.window1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.window1.Location = new System.Drawing.Point(79, 57);
+            this.window1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.window1.Location = new System.Drawing.Point(12, 12);
             this.window1.Name = "window1";
-            this.window1.Size = new System.Drawing.Size(551, 292);
-            this.window1.TabIndex = 0;
+            this.window1.Size = new System.Drawing.Size(776, 426);
+            this.window1.TabIndex = 1;
             this.window1.TabStop = false;
             // 
             // Form1
@@ -49,7 +51,6 @@
             this.Controls.Add(this.window1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.window1)).EndInit();
             this.ResumeLayout(false);
 
@@ -57,6 +58,6 @@
 
         #endregion
 
-        private Window window1;
+        private Controls.Window window1;
     }
 }

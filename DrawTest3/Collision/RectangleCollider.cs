@@ -1,12 +1,13 @@
-﻿using System.Numerics;
+﻿using DrawTest3.Drawing;
+using System.Numerics;
 
-namespace DrawTest2
+namespace DrawTest3.Collision
 {
     public class RectangleCollider : ICollider
     {
-        Func<Rect> getRect;
+        Func<MyRectangle> getRect;
 
-        public RectangleCollider(Func<Rect> getRect)
+        public RectangleCollider(Func<MyRectangle> getRect)
         {
             this.getRect = getRect;
         }
@@ -21,12 +22,12 @@ namespace DrawTest2
                 && point.Y < rect.Y + rect.H;
         }
 
-        public bool Collides(Rect rect2)
+        public bool Collides(MyRectangle rect2)
         {
             var rect1 = getRect();
-            return rect1.X < rect2.X + rect2.W 
-                && rect1.X + rect1.W > rect2.X 
-                && rect1.Y < rect2.Y + rect2.H 
+            return rect1.X < rect2.X + rect2.W
+                && rect1.X + rect1.W > rect2.X
+                && rect1.Y < rect2.Y + rect2.H
                 && rect1.H + rect1.Y > rect2.Y;
 
         }

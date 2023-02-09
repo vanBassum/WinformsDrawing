@@ -1,4 +1,4 @@
-namespace DrawTest2
+namespace DrawTest3
 {
     internal static class Program
     {
