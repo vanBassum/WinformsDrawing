@@ -1,6 +1,7 @@
 
-using DrawTest3.Components;
-using System.Numerics;
+using Draw;
+using Draw.Elements;
+using Draw.Manipulators;
 
 namespace DrawTest3
 {
@@ -9,20 +10,19 @@ namespace DrawTest3
         public Form1()
         {
             InitializeComponent();
+            Visualizer window = new Visualizer();
+            this.Controls.Add(window);
+            window.Dock = DockStyle.Fill;
 
-            Block block1, block2, block3;
-
-            window1.Components.Add(block1 = new Block() { WorldPos = new Vector2(20, 10) });
-            window1.Components.Add(block2 = new Block() { WorldPos = new Vector2(100, 10) });
-            window1.Components.Add(block3 = new Block() { WorldPos = new Vector2(100, 50) });
-
-            IO io = new IO();
-            io.WorldPos = block1.WorldPos + new Vector2(2, 10);
-            io.Name = "Somename";
-            block1.Blocks.Add(io);
+            GraphView graphView = new GraphView();  
+            window.AddElement(graphView);
+            graphView.AddManipulator(new ContentZoomer());
 
 
-            //window1.Blocks.Add(new DrawTest3.Blocks.Relais() { WorldPos = new Vector2(100, 100) });
+            var fps = new System.Windows.Forms.Timer();
+            fps.Interval = 1000/30;
+            fps.Tick += (s, e) => window.Refresh();
+            fps.Start();
         }
 
 
